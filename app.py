@@ -99,7 +99,12 @@ fig.update_layout(
     yaxis=dict(showgrid=False, title="Stock"),
 )
 
-# Exibindo no Streamlit
 st.title("Gráfico com Dados Históricos e Previsão Para os Proximos 30 Dias")
 st.plotly_chart(fig)
+
+#========================================================================
+prediction_df = pd.DataFrame({
+    'Predicted Close Price': forecast_data
+})
+st.table(prediction_df)
 

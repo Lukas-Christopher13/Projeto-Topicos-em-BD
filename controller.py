@@ -31,32 +31,45 @@ def today_open_price():
     return [[price_open]]
 
 def predict_next_thirty_days(df, scaler):
-    time_step = 15
+    time_stpe = 15
     model = joblib.load("models/LSTM_bitcoin_predict.pkl")
     test_data = get_data(df, scaler)
 
     # Pegando os últimos `time_step` dados para o input inicial
-    x_input = test_data[-time_step:].reshape(1, -1)
+    x_input = test_data[len(test_data) - time_stpe:].reshape(1, -1)
 
-    # Preparando a lista temporária
-    temp_input = x_input.flatten().tolist()
+    #converte para lista para podermos adicinar novos valores a medida que o loop avança
+    temp_imput = list(x_input)
+    temp_imput = temp_imput[0].tolist()
 
+    #Aramazena os valores preveistos
     lst_output = []
+    n_steps = time_stpe 
+    i = 0
     pred_days = 30
 
-    for _ in range(pred_days):
-        if len(temp_input) > time_step:
-            x_input = np.array(temp_input[-time_step:]).reshape((1, time_step, 1))
-        else:
-            x_input = np.array(temp_input).reshape((1, time_step, 1))
-        
-        # Realizando a predição
-        yhat = model.predict(x_input, verbose=0)
-        temp_input.append(yhat[0][0])
-        lst_output.append(yhat[0][0])
+    while(i < pred_days):
+        if(len(temp_imput) > time_stpe):
+            x_input = np.array(temp_imput[1:])
+            x_input = x_input.reshape(1, -1)
+            x_input = x_input.reshape((1, n_steps, 1))
 
-    print(f"Output of predicted next days: {len(lst_output)}")
-    print(lst_output)
+            yhat = model.predict(x_input, verbose=0)
+
+            temp_imput.extend(yhat[0].tolist())
+            temp_imput = temp_imput[1:]
+            
+            lst_output.extend(yhat.tolist())
+            i=i+1
+        else:
+            x_input = x_input.reshape((1, n_steps, 1))
+            yhat = model.predict(x_input, verbose=0)
+            temp_imput.extend(yhat[0].tolist())
+
+            lst_output.extend(yhat.tolist())
+            i=i+1
+
+    return lst_output
 
 def get_data(df, scaler):
     df = get_formated_data(df, scaler)
