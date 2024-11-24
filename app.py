@@ -52,9 +52,12 @@ st.markdown(
 st.dataframe(df)
 
 #=================================================================
-
 # Simulando os dados (substitua por seus dados reais)
-df_BTC_daily = pd.read_csv("archive/BTC-Daily.csv")
+
+#OBS: Caso queira utilizar os dados kaggle, descomente abaxio e comente "df_BTC_daily = pd.read_csv("archive/yfinance_BTC.csv")"
+
+#df_BTC_daily = pd.read_csv("archive/BTC-Daily.csv")
+df_BTC_daily = pd.read_csv("archive/yfinance_BTC.csv")
 
 scaler = MinMaxScaler(feature_range=(0, 1))
 closed_date_df = get_formated_data(df_BTC_daily, scaler)
