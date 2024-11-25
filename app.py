@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-from controller import predict_bitcoin_prices, today_open_price, predict_next_thirty_days, get_formated_data
+from controller import predict_bitcoin_prices, today_open_price, predict_next_thirty_days, get_formated_data, creat_yfinance_file
 
 today_price = today_open_price()
 df = predict_bitcoin_prices(today_price)
@@ -57,6 +57,7 @@ st.dataframe(df)
 #OBS: Caso queira utilizar os dados kaggle, descomente abaxio e comente "df_BTC_daily = pd.read_csv("archive/yfinance_BTC.csv")"
 
 #df_BTC_daily = pd.read_csv("archive/BTC-Daily.csv")
+creat_yfinance_file()
 df_BTC_daily = pd.read_csv("archive/yfinance_BTC.csv")
 
 scaler = MinMaxScaler(feature_range=(0, 1))

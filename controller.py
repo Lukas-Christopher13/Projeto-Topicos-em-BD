@@ -86,3 +86,21 @@ def get_formated_data(df, scaler):
     # Normaliza os dados
     df = scaler.fit_transform(np.array(df).reshape(-1, 1))
     return df
+
+
+def creat_yfinance_file():
+    ticker = "BTC-USD"
+    btc_data = yf.Ticker(ticker).history(period="max")
+
+    btc_data = btc_data.reset_index()
+
+    btc_data["unix"] = btc_data["Date"].astype(int) // 10**9  
+    btc_data["date"] = btc_data["Date"].dt.strftime("%Y-%m-%d %H:%M:%S")  
+    btc_data["symbol"] = "BTC/USD" 
+    btc_data["Volume BTC"] = btc_data["Volume"] / btc_data["Close"]  
+    btc_data["Volume USD"] = btc_data["Volume"] 
+
+    btc_data = btc_data[["unix", "date", "symbol", "Open", "High", "Low", "Close", "Volume BTC", "Volume USD"]]
+    btc_data.columns = ["unix", "date", "symbol", "open", "high", "low", "close", "Volume BTC", "Volume USD"]
+
+    btc_data.to_csv("archive/yfinance_BTC.csv", index=False)
