@@ -2,7 +2,7 @@
 
 Este projeto utiliza aprendizado de máquina para prever preços de Bitcoin com base em dados históricos.
 
-Acesse o projeto ao vivo em: [Bitcoin Price Prediction - Hugging Face](https://huggingface.co/spaces/LukasChristopher13/Bitcoin_Price_Predict_UEPB)
+Acesse o projeto ao vivo em: [Bitcoin Price Prediction - Hugging Face](https://huggingface.co/spaces/LukasChristopher13/PROJETO_TOPICOS_EM_BD)
 
 ---
 
